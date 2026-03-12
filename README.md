@@ -255,3 +255,11 @@ gitops-pipeline/
 - **GHCR** - Container registry
 - **Trivy** - Scan de seguranca
 - **kubeconform** - Validacao de manifests
+
+### Resultados e Impacto
+
+- **Zero deploys manuais** — CI/CD automatizado elimina erros de deploy e garante consistência
+- **Rastreabilidade total** — Cada mudança em produção é rastreável via Git, facilitando auditorias
+- **Rollback instantâneo** — Reversão de deploy em segundos via Git revert, sem downtime
+- **Ambientes consistentes** — Kustomize garante que staging e produção sejam idênticos
+- **Velocidade de entrega** — De commit a produção em minutos, não em dias
