@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: gitops-pipeline
+  namespace: argocd
+spec:
+  description: "GitOps Pipeline - CI/CD com GitHub Actions e ArgoCD"
+
+  sourceRepos:
+    - https://github.com/Vinicius-Costa14/gitops-pipeline.git
+
+  destinations:
+    - namespace: gitops-pipeline-staging
+      server: https://kubernetes.default.svc
+    - namespace: gitops-pipeline-production
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+
+  namespaceResourceWhitelist:
+    - group: ''
+      kind: '*'
+    - group: apps
+      kind: '*'
+    - group: networking.k8s.io
+      kind: '*'
+    - group: autoscaling
+      kind: '*'
+
+  roles:
+    - name: developer
+      description: "Acesso de leitura para devs"
+      policies:
+        - p, proj:gitops-pipeline:developer, applications, get, gitops-pipeline/*, allow
+        - p, proj:gitops-pipeline:developer, applications, sync, gitops-pipeline/*-staging, allow
+    - name: admin
+      description: "Acesso total ao projeto"
+      policies:
+        - p, proj:gitops-pipeline:admin, applications, *, gitops-pipeline/*, allow
